@@ -56,8 +56,22 @@ custom.
 **Why:** Avoids a build step (keeps D1 honest) while skipping the tedious part of CSS
 — resets, typography scale, sensible form and button defaults.
 
-**Open question:** _which_ framework. See the note in `STATUS.md` — Tailwind's CDN
-build and a classless framework like Pico.css behave very differently here.
+**Resolved 2026-10-31: Pico.css**, loaded from jsDelivr, with our own `style.css`
+layered on top.
+
+Pico is _classless_ — it styles semantic elements directly, so `<h1>`, `<article>`
+and `<button>` look good with no class attributes at all. That matches the goal
+("look nice without CSS wizardry") and keeps the HTML readable.
+
+Tailwind was rejected for this project: its CDN build is a ~400KB JavaScript file
+that generates CSS in the browser at runtime, causing a flash of unstyled content on
+mobile connections. Using Tailwind properly requires a build step, which contradicts
+D1. Tailwind remains the better choice on projects that already have a build
+pipeline — it loses here on context, not on merit.
+
+**Cost:** Pico has opinions. Anything that should look distinctly non-default — the
+banner especially — we write ourselves in `style.css`. That's intentional: the parts
+that carry personality are the parts worth hand-writing.
 
 ---
 

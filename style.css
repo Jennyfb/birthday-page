@@ -1,0 +1,156 @@
+/* =====================================================================
+   Jenny blir 27 — custom styling
+   ---------------------------------------------------------------------
+   Loaded AFTER pico.min.css. On equal specificity the later stylesheet
+   wins, which is the whole reason the <link> order in index.html matters.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. Design tokens
+   ---------------------------------------------------------------------
+   This block is the only place colours and fonts are defined. Change a
+   value here and it propagates everywhere. If you ever find yourself
+   pasting a hex code further down this file, it belongs up here instead.
+
+   The selector is :root[data-theme="light"] rather than plain :root on
+   purpose — Pico declares its own light palette at a specificity of
+   (0,2,0). A bare :root is (0,1,0) and would silently lose. Matching
+   Pico's specificity and loading afterwards is what makes these win.
+   --------------------------------------------------------------------- */
+:root[data-theme="light"] {
+  /* --- Our palette: a Regency letter ------------------------------- */
+  --ink: #332e29; /* warm near-black, softer than #000 */
+  --ink-soft: #6f655a; /* secondary text */
+  --parchment: #f3ece0; /* page background */
+  --card: #fffdf9; /* card background, a shade lighter */
+  --claret: #7a4049; /* accent: headings, links */
+  --claret-dark: #5c2f36; /* accent on hover */
+  --gold: #b0914f; /* dividers and small flourishes */
+  --rule: #e3d7c2; /* hairline borders */
+
+  /* --- Typefaces ---------------------------------------------------
+     Two serifs, different jobs. Cormorant Garamond is a display face:
+     high contrast, elegant, falls apart at small sizes. Lora is built
+     for body text. Using one font for both means either headings that
+     look plain or paragraphs that are tiring to read.
+     Georgia is the fallback — on the system already, similar metrics,
+     so the page stays readable if Google Fonts is slow or blocked.
+     ------------------------------------------------------------------ */
+  --display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --body: "Lora", Georgia, "Times New Roman", serif;
+
+  /* --- Hand our tokens to Pico -------------------------------------
+     Pico builds every component out of these variables. Reassigning
+     them re-themes cards, links, borders and buttons in one move. The
+     alternative — writing `article { background: ... }` for each
+     element — means fighting Pico's selectors forever.
+     ------------------------------------------------------------------ */
+  --pico-background-color: var(--parchment);
+  --pico-color: var(--ink);
+  --pico-muted-color: var(--ink-soft);
+  --pico-primary: var(--claret);
+  --pico-primary-hover: var(--claret-dark);
+  --pico-card-background-color: var(--card);
+  --pico-card-sectioning-background-color: var(--card);
+  --pico-card-border-color: var(--rule);
+  --pico-muted-border-color: var(--rule);
+  --pico-font-family: var(--body);
+  --pico-line-height: 1.7;
+  --pico-border-radius: 3px;
+}
+
+/* ---------------------------------------------------------------------
+   2. The hero
+   ---------------------------------------------------------------------
+   Sits outside <main class="container"> so it is free to use the full
+   page width if we ever want it to.
+   --------------------------------------------------------------------- */
+.hero {
+  padding: 3.5rem 1rem 2rem;
+  text-align: center;
+}
+
+.hero__image {
+  display: block;
+  width: 100%;
+
+  /* The source file is 540px wide. Letting it stretch past that upscales
+     it and it turns mushy — a browser cannot invent detail that was never
+     captured. Capping at the natural width keeps it crisp; on narrower
+     phones `width: 100%` shrinks it, which is always safe. */
+  max-width: 540px;
+
+  height: auto; /* preserves aspect ratio against the width/height attrs */
+  margin: 0 auto 2.25rem;
+
+  /* A thick light border reads as a photo mount; the two stacked shadows
+     are a close shadow for the edge and a wide soft one for depth. One
+     shadow alone looks either flat or like a drop-shadow from 2003. */
+  border: 10px solid var(--card);
+  box-shadow:
+    0 1px 3px rgba(51, 46, 41, 0.1),
+    0 14px 32px rgba(51, 46, 41, 0.13);
+}
+
+.hero h1 {
+  margin-bottom: 0.6rem;
+  color: var(--ink);
+  font-family: var(--display);
+  font-weight: 600;
+
+  /* clamp(min, preferred, max): never below 2.4rem, never above 4rem,
+     and 8vw in between. One line replaces two media queries. */
+  font-size: clamp(2.4rem, 8vw, 4rem);
+  line-height: 1.05;
+}
+
+.hero__date {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-style: italic;
+
+  /* Uppercase cramps letters together — the extra tracking is what makes
+     small caps look deliberate rather than shouted. */
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* A printer's flourish closing the hero. Decorative only, so it lives in
+   CSS: a screen reader should not announce "leaf" between the date and
+   the details. */
+.hero::after {
+  content: "❧";
+  display: block;
+  margin-top: 2rem;
+  color: var(--gold);
+  font-size: 1.6rem;
+}
+
+/* ---------------------------------------------------------------------
+   3. Content cards
+   --------------------------------------------------------------------- */
+main article {
+  border: 1px solid var(--rule);
+  box-shadow: 0 1px 2px rgba(51, 46, 41, 0.04);
+}
+
+main h2 {
+  margin-bottom: 1.1rem;
+  color: var(--claret);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.9rem;
+  line-height: 1.15;
+}
+
+main article p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------------
+   4. Page rhythm
+   --------------------------------------------------------------------- */
+body {
+  padding-bottom: 4rem;
+}

@@ -17,11 +17,11 @@ Updated: 2026-10-31
 | 3   | Details section (when, where, map link) | Structured content; `<time>`; linking to maps            | ⬜     |
 | 4   | RSVP section                            | `sms:` / `wa.me` / `mailto:` links and their gotchas     | ⬜     |
 | 5   | Responsive + polish                     | Mobile-first thinking — most guests open this on a phone | ✅     |
-| 6   | Link previews (Open Graph)              | Why a pasted link looks good or looks broken in a chat   | 🔨 now |
-| 7   | Push to GitHub, enable Pages            | Deploying by pushing                                     | 🔨 now |
-| 8   | Connect the custom domain               | DNS records, `CNAME`, HTTPS propagation                  | 🔨 now |
+| 6   | Link previews (Open Graph)              | Why a pasted link looks good or looks broken in a chat   | ✅     |
+| 7   | Push to GitHub, enable Pages            | Deploying by pushing                                     | ✅     |
+| 8   | Connect the custom domain               | DNS records, `CNAME`, HTTPS propagation                  | ✅     |
 
-Steps 6–8 are a single sitting — see **[DEPLOY.md](DEPLOY.md)** for the runbook.
+**🎉 Live at https://jennyfarstad.no** since 2026-11-12.
 
 ## Open questions
 
@@ -70,6 +70,18 @@ The single source of truth for page copy. If it's not here, it doesn't go on the
 | RSVP how    | Melding på Messenger / Snap / SMS — hvilken kanal som helst        |
 | Language    | Norsk (bokmål) → `lang="nb"`                                      |
 
+## Leftovers
+
+- [ ] `<meta name="robots" content="noindex, nofollow" />` not added. Without it the
+      page — date, time and venue — is eligible for Google results under Jenny's name.
+      Optional, but it is the only thing from the deploy checklist still open.
+- [ ] `Jennyfb/Jennyfb.github.io` still has a `CNAME` file pointing at `ntnuoc.no`,
+      a domain with no DNS records. Harmless now that this repo sets its own domain,
+      but it is why project pages redirected somewhere unexpected. Clean up by
+      deleting that file, or clearing the custom domain in that repo's Pages settings.
+- [ ] Repo name is `birthay-page` (missing a `d`). Invisible to guests now that the
+      custom domain works.
+
 ## Log
 
 - **2026-10-31** — Project started. Decisions D1–D5 recorded. Scope fixed at one page.
@@ -90,3 +102,9 @@ The single source of truth for page copy. If it's not here, it doesn't go on the
   blur is deliberate — the source is only 540×400, so upscaling it sharp would look
   mushy; blurring converts that into depth-of-field. `<h1>` restored to "Jenny blir
   27 år" so the page announces its actual subject.
+- **2026-11-12** — **Deployed.** Live on https://jennyfarstad.no, Let's Encrypt
+  certificate issued, HTTPS enforced. Four A records on the apex at Domeneshop,
+  `www` CNAME redirecting to the apex. The initial `NotServedByPagesError` was the
+  domain resolving to `parkedweb01.domeneshop.no` — the parking record had to be
+  removed, not just added alongside. Verified: all assets 200, Open Graph tags
+  complete including an absolute `og:image`.

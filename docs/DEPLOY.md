@@ -54,14 +54,45 @@ On GitHub: **Settings → Pages**
 - **Branch:** `main`, folder `/ (root)`
 - **Save**
 
-Give it a minute, then confirm it works on the github.io URL *before* touching DNS.
-Debugging one thing at a time beats debugging two.
+**Correction to the original plan:** this only works if `CNAME` is *not* committed
+yet. Once it is, GitHub immediately treats the custom domain as authoritative and
+`301`-redirects the github.io URL to it — so there is nothing to preview there.
+
+Committing `CNAME` and enabling Pages in the same sitting therefore skips the
+github.io verification step entirely. That is fine; it just means DNS has to be
+correct before anything is visible.
+
+### A wrinkle specific to this account
+
+`Jennyfb.github.io` has its own CNAME pointing at `ntnuoc.no`. When an account's
+*user* site has a custom domain, *project* pages under that account are served at
+`<that-domain>/<repo>/` by default. That is why the github.io URL redirects to
+`ntnuoc.no/birthay-page/` rather than anywhere useful — and `ntnuoc.no` currently has
+no A record at all, so that address is a dead end.
+
+This repo's own root `CNAME` overrides that inheritance. Nothing here affects the
+`Jennyfb.github.io` repo, which can be cleaned up separately whenever.
 
 ---
 
 ## 4. DNS
 
-At whoever manages `jennyfarstad.no` (Domeneshop, One.com, Cloudflare…).
+`jennyfarstad.no` is on **Domeneshop** (nameservers `ns1/2/3.hyp.net`).
+
+### Delete the parking records first
+
+Both `jennyfarstad.no` and `www.jennyfarstad.no` currently resolve to
+`185.134.245.113` = `parkedweb01.domeneshop.no`, Domeneshop's "domain parked" page.
+
+This is the actual cause of `NotServedByPagesError`. GitHub is not failing to find
+the domain — it finds it fine and sees someone else's server answering. Those records
+must be **removed**, not merely added alongside; several A records on one name means
+the browser gets whichever answers first, and roughly a quarter of your guests would
+land on a parking page.
+
+In Domeneshop: **Mine domener → jennyfarstad.no → DNS**. If the DNS editor is locked
+or the parking record reappears after saving, turn off *webhotell/parkering* for the
+domain first — that setting regenerates the record.
 
 **Apex domain — four A records**, all with host `@`:
 

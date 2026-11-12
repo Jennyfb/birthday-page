@@ -84,6 +84,21 @@ if JS fails — all critical information (when, where, how to reply) lives in th
 
 ---
 
+## D6 — Custom domain `jennyfarstad.no`
+
+**Decision:** The invitation is served from the apex domain `jennyfarstad.no`,
+pointed at GitHub Pages. The domain is configured before the link is shared.
+
+**Why:** Connecting the domain after sharing means chat apps have already cached
+preview cards against the `github.io` URL, and those caches are not under our
+control. Open Graph tags also need absolute URLs, so the final hostname has to be
+decided before they can be written.
+
+**Cost:** DNS propagation plus certificate issuance before the link is usable.
+Started 2026-11-12 with the party on 2026-11-28, so there is ample slack.
+
+---
+
 ## Deliberately not doing
 
 - **Analytics.** Not worth the cookie banner for an invite.
